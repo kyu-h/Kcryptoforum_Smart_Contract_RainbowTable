@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <?php
-// Create connection
+/*// Create connection
 $con=mysqli_connect("localhost","root", "123123", "check");
 
 // Check connection
@@ -19,25 +19,8 @@ if (mysqli_query($con, $sql)) {
     echo "Record updated successfully";
 } else {
     echo "Error updating record: " . mysqli_error($con);
-}
-
-/*$sql = "UPDATE Node SET degree='25' WHERE id='3'";
-
-if (mysqli_query($con, $sql)) {
-    echo "Record updated successfully";
-} else {
-    echo "Error updating record: " . mysqli_error($con);
 }*/
 
-/*$sql = "DELETE FROM Node WHERE id=36";
-
-if (mysqli_query($con, $sql)) {
-    echo "Record deleted successfully";
-} else {
-    echo "Error deleting record: " . mysqli_error($con);
-}*/
-
-//echo $_GET['dg'];
 ?>
 <html>
 <head>
@@ -79,12 +62,9 @@ if (mysqli_query($con, $sql)) {
         </script>
         <?
             while($row = mysqli_fetch_array($result)){
-                echo $row['id'] . " " . $row['degree'];
-                echo "<br>";
 
                 if ($row[1] == '50'){
                     $str = '1';
-                    echo "degree is over 25";
                 }
             }
         ?>
@@ -96,7 +76,7 @@ if (mysqli_query($con, $sql)) {
         </script>
 </head>
 <body>
-
+    <p>test</p>
     <form method="GET" action="test.php">
     id : <input type="text" name="id"> <br>
     degree : <input type="text" name="degree"> <br>
