@@ -1,3 +1,3 @@
-# crowdfund 실습가이드
+Rainbow table is a table that can easily find the input value based on the output value after pre-generating the input value and output value to be input to the encryption algorithm according to the algorithm type and output bit. The rainbow table allows you to find the value you want very quickly because you only need to find one value of the entire data rather than simply doing a full count. The limitation of the Rainbow table, however, is that the amount you have to build a rainbow table for every input value is too large. These limitations can be solved by using blockchain technology. The blockchain consists of a blockchain, which is a shared network and not a single user. Thus making it possible to build a rainbow table that was considered impossible. In this paper, we describe how to construct hash function and block cipher rainbow tables using blockchains.
 
-http://www.etherstudy.net/
+This project base code from this <a href="https://github.com/goblinok/crowdfunding" target="_blank">web site</a> <br>
