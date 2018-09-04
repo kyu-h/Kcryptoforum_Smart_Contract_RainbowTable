@@ -14,7 +14,7 @@
     }
 </style>
 <body>
-    <p>Please click algorithm type and output bits.</p>
+    <p>Please click algorithm type and output bits</p>
     <table style="">
       <tr>
         <th>Algorithm types</th>
@@ -22,7 +22,7 @@
       </tr>
       <tr>
         <td>
-            <input type="radio" name="algo" value="LSH" checked="checked"> LSH<br>
+            <input type="radio" name="algo" value="LSH"> LSH<br>
             <input type="radio" name="algo" value="LEA"> LEA<br>
             <input type="radio" name="algo" value="HIGHT"> HIGHT<br>
             <input type="radio" name="algo" value="CHAM"> CHAM<br>
@@ -30,7 +30,7 @@
 
         <td>
             <div id="POP_LSH">
-                <input type="radio" name="bits" value="256_224" checked="checked"> 256_224<br>
+                <input type="radio" name="bits" value="256_224"> 256_224<br>
                 <input type="radio" name="bits" value="256_256"> 256_256<br>
                 <input type="radio" name="bits" value="512_224"> 512_224<br>
                 <input type="radio" name="bits" value="512_256"> 512_256<br>
@@ -39,7 +39,7 @@
             </div>
 
             <div id="POP_LEA" style="display: none;">
-                <input type="radio" name="bits" value="128" checked="checked"> 128<br>
+                <input type="radio" name="bits" value="128"> 128<br>
                 <input type="radio" name="bits" value="192"> 192<br>
                 <input type="radio" name="bits" value="256"> 256
             </div>
@@ -50,7 +50,7 @@
         <table>
             <th>Config Mode</th>
             <td>
-                <input type="radio" name="config" value="ECB" checked="checked"> ECB<br>
+                <input type="radio" name="config" value="ECB"> ECB<br>
                 <input type="radio" name="config" value="CBC"> CBC<br>
                 <input type="radio" name="config" value="CTR"> CTR
             </td>
@@ -59,16 +59,12 @@
     
     <div>
         Input values : <input type="text" name="input_text" id="input_text">
-        <input type = "button" id="button1" value="Send to Server" onclick="click_btn()">
+        <input type = "button" id="button1" value="verify_lsh" onclick="verify_lsh()">
     </div>
-    
-    <form method="POST">
-        <input type = "button" id="button2" value="verify" onclick="verify()">
-    </form>
 
     <br><br>
     
-    <script>
+    <!--<script>
         if (typeof web3 !== 'undefined') {
           web3 = new Web3(web3.currentProvider);
         } else {
@@ -99,7 +95,7 @@
         };
         
         //web3.eth.sendTransaction(transactionObj);
-    </script>
+    </script>-->
     
     <script>
         var get_cookie = document.cookie;
@@ -128,43 +124,28 @@
                 $("input:radio[name='algo']:radio[value='HIGHT']").prop("checked", false);
                 $("input:radio[name='algo']:radio[value='CHAM']").prop("checked", false);
                 
-                $('#POP_LSH').css('display', 'none');
-                $('#POP_LEA').css('display', 'block');
+                $('#POP_LSH').css('display', 'block');
+                $('#POP_LEA').css('display', 'none');
                 
                 $('#LEA_Config').css('display', 'none');
             }
         }
         
-        
-    </script>
-    
-    <script>
-        var AlgoradioVal = $(':radio[name="algo"]:checked').val();
-        var BitsradioVal = $(':radio[name="bits"]:checked').val();
-        var config_mode = $(':radio[name="config"]:checked').val();
-        var input_text = $('input[name=input_text]').val();
-        
-        
-        console.log(input_text);
-        
-        function click_btn(){
+        function verify_lsh(){
+            var AlgoradioVal = $(':radio[name="algo"]:checked').val();
+            var BitsradioVal = $(':radio[name="bits"]:checked').val();
+            var config_mode = $(':radio[name="config"]:checked').val();
+            var input_text = $('input[name=input_text]').val();
             
-            location.reload();
-        }
-        
-        function verify(){
-            var cookie = "";
+            var send_cookie = AlgoradioVal + "/" + BitsradioVal + "/" + input_text;
             
-            if(config_mode != null){
-                cookie = AlgoradioVal + "/" + BitsradioVal + "/" + input_text + "/" + config_mode;
-            }else {
-                cookie = AlgoradioVal + "/" + BitsradioVal + "/" + input_text;
+            if(AlgoradioVal == "LEA"){
+                send_cookie  += "/" + config_mode;
             }
             
-            console.log(cookie);
+            document.cookie = send_cookie;
             
-            document.cookie = cookie;
-            window.location.href = "/crowdfund_exercise_2/dapp/verify.php";
+            window.location.href = "/SmartContract_RainbowTable/Kcryptoforum_Smart_Contract_RainbowTable/dapp/verify.php";
         }
         
         $('input[type=radio][name=algo]').on('click', function() {

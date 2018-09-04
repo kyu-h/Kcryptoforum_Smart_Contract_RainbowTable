@@ -14,21 +14,92 @@
     }
 </style>
 <body>
-    <p>Please click algorithm type and output bits.</p>
+    <p>Please click algorithm type and output bits</p>
     <script>
         var cookie = document.cookie;
         var split_cookie = cookie.split('/');
+        var verify_num = 0;
         
         var algo = split_cookie[0];
         var bits = split_cookie[1];
         var input_text = split_cookie[2];
-        
-        if(split_cookie[3] != null){
-            var config = split_cookie[3];
-        }
+        var config = "";
+        var text = "";
         
         console.log(cookie);
         console.log(input_text);
+        
+        if(split_cookie[0] == "LEA"){
+            config = split_cookie[3];
+            console.log(config);
+        }
+        
+        if(algo == "LSH"){
+            var findStr = "tt";
+            var input = "C:\\Bitnami\\wampstack-7.1.20-1\\apache2\\htdocs\\SmartContract_RainbowTable\\Kcryptoforum_Smart_Contract_RainbowTable\\dapp\\" + algo + "-" + bits + ".txt";
+            
+            document.writeln("<br /><br />");
+            document.writeln("Original input file<br>");
+            inputFile(input);
+            
+            var split_txt = text.split('/');
+            
+            for(var i =0; i<split_txt.length; i++){
+                if(split_txt[i] == input_text){
+                    document.writeln("<br />");
+                    document.writeln(input_text + "is already exist");
+                    
+                    verify_num = 1;
+                }
+                
+                if(split_txt[i].indexOf(findStr) != -1){
+                    console.log(split_txt[i] + " find!!");
+                }
+            }
+            
+            
+            if(verify_num == 0){
+                NotExist();
+                
+                document.writeln("<br /><br />");
+                document.writeln("Newest input file<br>");
+
+                inputFile(input);
+            }else {
+                alert("You can not put new block");
+            }
+            
+            $(window).ready(function(){
+                console.log("load");
+
+            });    
+        }
+        
+        function inputFile(input){
+            var fso = new ActiveXObject("Scripting.FileSystemObject");    
+            var ForReading = 1;
+            var f1 = fso.OpenTextFile(input, ForReading);
+            text = f1.ReadAll();
+            document.writeln(text);
+            f1.close();
+            return text;
+        }
+        
+        
+        function NotExist(){
+            var fileObject = new ActiveXObject("Scripting.FileSystemObject");
+
+            fWrite = fileObject.CreateTextFile("C:\\Bitnami\\wampstack-7.1.20-1\\apache2\\htdocs\\SmartContract_RainbowTable\\Kcryptoforum_Smart_Contract_RainbowTable\\dapp\\" + algo + "-" + bits + ".txt", true);
+            
+            for(var i=0; i<split_txt.length; i++){
+                fWrite.write(split_txt[i]);
+                fWrite.write("/");
+            }
+            
+            fWrite.write(input_text);
+
+            fWrite.close();
+        }
     </script>
 </body>
 </html>
