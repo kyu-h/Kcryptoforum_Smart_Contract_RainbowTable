@@ -36,7 +36,46 @@
         
         if(algo == "LSH"){
             var findStr = "tt";
-            var input = "C:\\Bitnami\\wampstack-7.1.20-1\\apache2\\htdocs\\SmartContract_RainbowTable\\Kcryptoforum_Smart_Contract_RainbowTable\\dapp\\" + algo + "-" + bits + ".txt";
+            var input = "C:\\Bitnami\\wampstack-7.1.20-1\\apache2\\htdocs\\SmartContract_RainbowTable\\Kcryptoforum_Smart_Contract_RainbowTable\\dapp\\LSH\\" + algo + "-" + bits + ".txt";
+            
+            document.writeln("<br /><br />");
+            document.writeln("Original input file<br>");
+            inputFile(input);
+            
+            var split_txt = text.split('/');
+            
+            for(var i =0; i<split_txt.length; i++){
+                if(split_txt[i] == input_text){
+                    document.writeln("<br />");
+                    document.writeln(input_text + "is already exist");
+                    
+                    verify_num = 1;
+                }
+                
+                if(split_txt[i].indexOf(findStr) != -1){
+                    console.log(split_txt[i] + " find!!");
+                }
+            }
+            
+            
+            if(verify_num == 0){
+                NotExist();
+                
+                document.writeln("<br /><br />");
+                document.writeln("Newest input file<br>");
+
+                inputFile(input);
+            }else {
+                alert("You can not put new block");
+            }
+            
+            $(window).ready(function(){
+                console.log("load");
+
+            });    
+        }else if(algo == "LEA"){
+            var findStr = "tt";
+            var input = "C:\\Bitnami\\wampstack-7.1.20-1\\apache2\\htdocs\\SmartContract_RainbowTable\\Kcryptoforum_Smart_Contract_RainbowTable\\dapp\\LEA\\" + algo + "_" + config + "-" + bits + ".txt";
             
             document.writeln("<br /><br />");
             document.writeln("Original input file<br>");
@@ -88,9 +127,13 @@
         
         function NotExist(){
             var fileObject = new ActiveXObject("Scripting.FileSystemObject");
-
-            fWrite = fileObject.CreateTextFile("C:\\Bitnami\\wampstack-7.1.20-1\\apache2\\htdocs\\SmartContract_RainbowTable\\Kcryptoforum_Smart_Contract_RainbowTable\\dapp\\" + algo + "-" + bits + ".txt", true);
             
+            if(algo == "LSH"){
+                fWrite = fileObject.CreateTextFile("C:\\Bitnami\\wampstack-7.1.20-1\\apache2\\htdocs\\SmartContract_RainbowTable\\Kcryptoforum_Smart_Contract_RainbowTable\\dapp\\LSH\\" + algo + "-" + bits + ".txt", true);    
+            }else if(algo == "LEA"){
+                fWrite = fileObject.CreateTextFile("C:\\Bitnami\\wampstack-7.1.20-1\\apache2\\htdocs\\SmartContract_RainbowTable\\Kcryptoforum_Smart_Contract_RainbowTable\\dapp\\LEA\\" + algo + "_" + config + "-" + bits + ".txt", true);    
+            }
+
             for(var i=0; i<split_txt.length; i++){
                 fWrite.write(split_txt[i]);
                 fWrite.write("/");
