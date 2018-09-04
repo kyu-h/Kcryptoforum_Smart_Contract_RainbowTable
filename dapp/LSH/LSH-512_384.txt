@@ -1,2 +1,10 @@
 Algo_ID = LSH-512_384
-ttt/aaa/bbb/ccc/qqq
+Message = 8
+"fff"
+"444"
+"64"
+"gg"
+"fffd"
+"er"
+"32"
+"gs"

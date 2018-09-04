@@ -14,7 +14,7 @@
     }
 </style>
 <body>
-    <p>Please click algorithm type and output bits</p>
+    <p>Please click algorithm type and output bits!!</p>
     <table style="">
       <tr>
         <th>Algorithm types</th>
@@ -57,9 +57,21 @@
         </table>
     </div>
     
-    <div>
+    <br><br>
+    
+    <div id="POP_LEA" style="display: block;">
+        <input type="radio" name="values" value="INPUT"> INPUT<br>
+        <input type="radio" name="values" value="SEARCH"> SEARCH
+    </div>
+    
+    <div id="POP_Verify" style="display: none;">
         Input values : <input type="text" name="input_text" id="input_text">
-        <input type = "button" id="button1" value="verify_lsh" onclick="verify_lsh()">
+        <input type = "button" id="button1" value="verify" onclick="verify_lsh()">
+    </div>
+    
+    <div id="POP_Search" style="display: none;">
+        Search values : <input type="text" name="input_text2" id="input_text2">
+        <input type = "button" id="button2" value="Search" onclick="Search()">
     </div>
 
     <br><br>
@@ -148,6 +160,23 @@
             window.location.href = "/SmartContract_RainbowTable/Kcryptoforum_Smart_Contract_RainbowTable/dapp/verify.php";
         }
         
+        function Search(){
+            var AlgoradioVal = $(':radio[name="algo"]:checked').val();
+            var BitsradioVal = $(':radio[name="bits"]:checked').val();
+            var config_mode = $(':radio[name="config"]:checked').val();
+            var input_text = $('input[name=input_text2]').val();
+            
+            var send_cookie = AlgoradioVal + "/" + BitsradioVal + "/" + input_text;
+            
+            if(AlgoradioVal == "LEA"){
+                send_cookie  += "/" + config_mode;
+            }
+            
+            document.cookie = send_cookie;
+            
+            window.location.href = "/SmartContract_RainbowTable/Kcryptoforum_Smart_Contract_RainbowTable/dapp/search.php";
+        }
+        
         $('input[type=radio][name=algo]').on('click', function() {
             var chkvalue = $('input[type=radio][name=algo]:checked').val();
 
@@ -187,6 +216,18 @@
             }
         });
     
+        $('input[type=radio][name=values]').on('click', function() {
+            var chkvalue = $('input[type=radio][name=values]:checked').val();
+
+            if (chkvalue == 'INPUT'){
+                $('#POP_Verify').css('display', 'block');
+                $('#POP_Search').css('display', 'none');
+            }else {
+                $('#POP_Verify').css('display', 'none');
+                $('#POP_Search').css('display', 'block');
+            }
+        });
+        
     </script>
 
 </body>

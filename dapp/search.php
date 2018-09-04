@@ -24,6 +24,9 @@
         var input_text = split_cookie[2];
         var config = "";
         var text = "";
+        var text_fax = "";
+        var NumAry = new Array();
+        var count = 0;
         
         console.log(cookie);
         console.log(input_text);
@@ -36,10 +39,12 @@
         if(algo == "LSH"){
             var findStr = "tt";
             var input = "C:\\Bitnami\\wampstack-7.1.20-1\\apache2\\htdocs\\SmartContract_RainbowTable\\Kcryptoforum_Smart_Contract_RainbowTable\\dapp\\LSH\\" + algo + "-" + bits + ".txt";
-            var input_fact = "C:\\Bitnami\\wampstack-7.1.20-1\\apache2\\htdocs\\SmartContract_RainbowTable\\Kcryptoforum_Smart_Contract_RainbowTable\\dapp\\LSH\\" + algo + "-" + bits + "_fax.txt";
+            
+            var input_fax = "C:\\Bitnami\\wampstack-7.1.20-1\\apache2\\htdocs\\SmartContract_RainbowTable\\Kcryptoforum_Smart_Contract_RainbowTable\\dapp\\LSH\\" + algo + "-" + bits + "_fax.txt";
             
             document.writeln("Original input file<br>");
             inputFile(input);
+            document.writeln("<br><br>");
             
             var split_txt = text.split('"\r\n"');
             var first_split = split_txt[0].split('"');
@@ -49,51 +54,19 @@
             
             
             for(var i =0; i<split_txt.length; i++){
-                if(split_txt[i] == input_text){
-                    document.writeln("<br />");
-                    document.writeln(input_text + "is already exist");
-                    
-                    verify_num = 1;
-                }
-                
-                if(split_txt[i].indexOf(findStr) != -1){
-                    console.log(split_txt[i] + " find!!");
+                if(split_txt[i].indexOf(input_text) != -1){
+                    document.writeln("Block input [" + i + "]" + ": " + split_txt[i] + "<br />");
+                    NumAry[count++] = i;
                 }
             }
+            document.writeln("<br><br>");
             
+            inputFile_Fax(input_fax);
+            split_txt = text_fax.split('\r\n');
             
-            if(verify_num == 0){
-                NotExist();
-                
-                document.writeln("<br /><br />");
-                document.writeln("Newest input file<br>");
-
-                inputFile(input);
-                
-                
-            <?php
-                $current = "";
-                $answer = "";
-
-                putenv("PATH=C:\\Program Files (x86)\\mingw-w64\\i686-7.3.0-posix-dwarf-rt_v5-rev0\\mingw32\\bin");
-
-                shell_exec("gcc -c main.c");
-                shell_exec("gcc -c lsh.c");
-                shell_exec("gcc -c lsh256.c");
-                shell_exec("gcc -c lsh512.c");
-
-                shell_exec("gcc -o main.exe main.o lsh.o lsh256.o lsh512.o");
-
-                $answer = shell_exec("main.exe");
-            ?>
-                
-            }else {
-                alert("You can not put new block");
+            for(var i=0; i<NumAry.length; i++){
+                document.writeln("Hash output [" + NumAry[i] + "]" + ": " + split_txt[NumAry[i] + 1] + "<br />");
             }
-            
-            document.writeln("<br /><br />");
-            document.writeln("Newest fact file<br>");
-            inputFile(input_fact);
 
 
         }else if(algo == "LEA"){
@@ -147,6 +120,14 @@
             return text;
         }
         
+        function inputFile_Fax(input){
+            var fso = new ActiveXObject("Scripting.FileSystemObject");    
+            var ForReading = 1;
+            var f1 = fso.OpenTextFile(input, ForReading);
+            text_fax = f1.ReadAll();
+            f1.close();
+            return text_fax;
+        }
         
         function NotExist(){
             var fileObject = new ActiveXObject("Scripting.FileSystemObject");

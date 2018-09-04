@@ -1,2 +1,13 @@
 Algo_ID = LSH-256_256
-ttt/aaa/bbb/ccc/qqq/123/333
+Message = 11
+"fff"
+"444"
+"64"
+"gg"
+"fffd"
+"er"
+"32"
+"agag"
+"5656"
+"dfsss"
+""
