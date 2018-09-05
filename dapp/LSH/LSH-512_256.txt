@@ -1,5 +1,5 @@
 Algo_ID = LSH-512_256
-Message = 10
+Message = 15
 "fff"
 "444"
 "64"
@@ -10,3 +10,8 @@ Message = 10
 "ttte"
 "sdf"
 "f"
+"1f1"
+"f1f1"
+"bbbff"
+"hwh4"
+"3n3n"

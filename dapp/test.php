@@ -14,7 +14,7 @@
     }
 </style>
 <body>
-    <p>Please click algorithm type and output bits!!</p>
+    <p>Please click algorithm type and output bits</p>
     <table style="">
       <tr>
         <th>Algorithm types</th>
@@ -174,7 +174,12 @@
             
             document.cookie = send_cookie;
             
-            window.location.href = "/SmartContract_RainbowTable/Kcryptoforum_Smart_Contract_RainbowTable/dapp/search.php";
+            var r = confirm("If you click 'OK' you will pay for searching!");
+            if (r == true) {
+                window.location.href = "/SmartContract_RainbowTable/Kcryptoforum_Smart_Contract_RainbowTable/dapp/search.php";
+            } else {
+                window.location.href = "/SmartContract_RainbowTable/Kcryptoforum_Smart_Contract_RainbowTable/dapp/test.php";
+            }
         }
         
         $('input[type=radio][name=algo]').on('click', function() {

@@ -1,5 +1,5 @@
 Algo_ID = LSH-512_512
-Message = 8
+Message = 9
 "fff"
 "444"
 "64"
@@ -8,3 +8,4 @@ Message = 8
 "er"
 "32"
 "ggg"
+"1f1"

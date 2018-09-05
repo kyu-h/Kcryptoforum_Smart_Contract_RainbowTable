@@ -91,9 +91,9 @@
                 alert("You can not put new block");
             }
             
-            document.writeln("<br /><br />");
+            /*document.writeln("<br /><br />");
             document.writeln("Newest fact file<br>");
-            inputFile(input_fact);
+            inputFile(input_fact);*/
 
 
         }else if(algo == "LEA"){
@@ -178,6 +178,17 @@
 
             fWrite.close();
         }
+        
+        function checkall(){
+            
+            console.log("gogo");
+            window.location.href = "/SmartContract_RainbowTable/Kcryptoforum_Smart_Contract_RainbowTable/dapp/checkall.php";
+        }
     </script>
+
+    <br><br>
+    <div id="check" style="display: block;">
+        <input type = "button" id="button" value="CheckAll" onclick="checkall()">
+    </div>
 </body>
 </html>

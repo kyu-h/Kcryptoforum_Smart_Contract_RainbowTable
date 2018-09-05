@@ -27,6 +27,8 @@
         var text_fax = "";
         var NumAry = new Array();
         var count = 0;
+        var down_input = new Array();
+        var down_hash = new Array();
         
         console.log(cookie);
         console.log(input_text);
@@ -56,18 +58,28 @@
             for(var i =0; i<split_txt.length; i++){
                 if(split_txt[i].indexOf(input_text) != -1){
                     document.writeln("Block input [" + i + "]" + ": " + split_txt[i] + "<br />");
-                    NumAry[count++] = i;
+                    NumAry[count] = i;
+                    down_input[count++] = split_txt[i];
+                    verify_num = 1;
                 }
             }
+            
+            if(verify_num == 0){
+                document.writeln("There is no '" + input_text + "' input value!");  
+                
+                $('#donwload').css('display', 'none');
+            }
+            
             document.writeln("<br><br>");
             
             inputFile_Fax(input_fax);
-            split_txt = text_fax.split('\r\n');
+            var split_hash = text_fax.split('\r\n');
             
+            count = 0;
             for(var i=0; i<NumAry.length; i++){
-                document.writeln("Hash output [" + NumAry[i] + "]" + ": " + split_txt[NumAry[i] + 1] + "<br />");
+                document.writeln("Hash output [" + NumAry[i] + "]" + ": " + split_hash[NumAry[i] + 1] + "<br />");
+                down_hash[count++] = split_hash[NumAry[i] + 1];
             }
-
 
         }else if(algo == "LEA"){
             var findStr = "tt";
@@ -159,6 +171,31 @@
 
             fWrite.close();
         }
+        
+        function download() {
+            var fileObject = new ActiveXObject("Scripting.FileSystemObject");
+            
+            fWrite = fileObject.CreateTextFile("C:\\Bitnami\\wampstack-7.1.20-1\\apache2\\htdocs\\SmartContract_RainbowTable\\Kcryptoforum_Smart_Contract_RainbowTable\\dapp\\LSH\\SearchFile\\" + algo + "-" + bits + "_RT.txt", true);    
+                
+            fWrite.write("Algo_ID = LSH-" + bits);
+            fWrite.write("\r\n");
+            
+            fWrite.write("Total Amount = " + NumAry.length + "\r\n");
+            
+            for(var i=0; i<NumAry.length; i++){
+                fWrite.write(down_input[i] + ": " + down_hash[i]);
+                fWrite.write("\r\n");
+            }
+            
+            fWrite.close();
+            
+            confirm("Download Complete!");
+        }
     </script>
+    
+    <br><br>
+    <div id="donwload">
+        <input type = "button" id="button" value="Download" onclick="download()">
+    </div>
 </body>
 </html>

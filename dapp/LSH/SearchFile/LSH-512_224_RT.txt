@@ -1,0 +1,5 @@
+Algo_ID = LSH-512_224
+Total Amount = 3
+fff: 86eaebbb4bbba8472ece23794c9bec7ee1b8911204848d6101430e2d
+fffd: 5cbfc436834e5a9ce680efbeeca8654319e14d124f47d77e9ebbdadf
+f: 0558be747b228c9cf189889962547a8059ccf4c57a4ae0d80bbd269e
