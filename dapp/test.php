@@ -14,7 +14,7 @@
     }
 </style>
 <body>
-    <p>Please click algorithm type and output bits!</p>
+    <p>Please click algorithm type and output bits</p>
     <table style="">
       <tr>
         <th>Algorithm types</th>
