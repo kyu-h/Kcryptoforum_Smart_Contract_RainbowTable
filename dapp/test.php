@@ -14,7 +14,7 @@
     }
 </style>
 <body>
-    <p>Please click algorithm type and output bits</p>
+    <p>Please click algorithm type and output bits!</p>
     <table style="">
       <tr>
         <th>Algorithm types</th>
@@ -64,15 +64,33 @@
         <input type="radio" name="values" value="SEARCH"> SEARCH
     </div>
     
-    <div id="POP_Verify" style="display: none;">
-        Input values : <input type="text" name="input_text" id="input_text">
-        <input type = "button" id="button1" value="verify" onclick="verify_lsh()">
+    <div id="LSH" style="display: block;">
+        <div id="LSH_Verify" style="display: none;">
+            Input values : <input type="text" name="input_text" id="input_text">
+            <input type = "button" id="button1" value="verify" onclick="verify()">
+        </div>
+
+        <div id="LSH_Search" style="display: none;">
+            Search values : <input type="text" name="input_text2" id="input_text2">
+            <input type = "button" id="button2" value="Search" onclick="Search()">
+        </div>
     </div>
     
-    <div id="POP_Search" style="display: none;">
-        Search values : <input type="text" name="input_text2" id="input_text2">
-        <input type = "button" id="button2" value="Search" onclick="Search()">
+    <div id="LEA" style="display: none;">
+        <div id="LEA_Verify" style="display: none;">
+            PlainText values : <input type="text" name="input_text3" id="input_text3"> <br>
+            Key values : <input type="text" name="input_text4" id="input_text4">
+            <input type = "button" id="button3" value="verify" onclick="verify()">
+        </div>
+
+        <div id="LEA_Search" style="display: none;">
+            PlainText values : <input type="text" name="input_text5" id="input_text5"> <br>
+            Key values : <input type="text" name="input_text6" id="input_text6">
+            <input type = "button" id="button4" value="Search" onclick="Search()">
+        </div>
     </div>
+    
+    
 
     <br><br>
     
@@ -126,6 +144,9 @@
                 $('#POP_LSH').css('display', 'none');
                 $('#POP_LEA').css('display', 'block');
                 
+                $('#LSH').css('display', 'none');
+                $('#LEA').css('display', 'block');
+                
                 $('#LEA_Config').css('display', 'block');
             }
         }else if(algo == "LSH"){
@@ -139,20 +160,27 @@
                 $('#POP_LSH').css('display', 'block');
                 $('#POP_LEA').css('display', 'none');
                 
+                $('#LSH').css('display', 'block');
+                $('#LEA').css('display', 'none');
+                
                 $('#LEA_Config').css('display', 'none');
             }
         }
         
-        function verify_lsh(){
+        function verify(){
             var AlgoradioVal = $(':radio[name="algo"]:checked').val();
             var BitsradioVal = $(':radio[name="bits"]:checked').val();
             var config_mode = $(':radio[name="config"]:checked').val();
             var input_text = $('input[name=input_text]').val();
+            var Plain = $('input[name=input_text3]').val();
+            var Key = $('input[name=input_text4]').val();
             
-            var send_cookie = AlgoradioVal + "/" + BitsradioVal + "/" + input_text;
+            var send_cookie = AlgoradioVal + "/" + BitsradioVal;
             
             if(AlgoradioVal == "LEA"){
-                send_cookie  += "/" + config_mode;
+                send_cookie += "/" + config_mode + "/" + Plain + "/" + Key;
+            }else if(AlgoradioVal == "LSH"){
+                send_cookie += "/" + input_text;
             }
             
             document.cookie = send_cookie;
@@ -165,11 +193,15 @@
             var BitsradioVal = $(':radio[name="bits"]:checked').val();
             var config_mode = $(':radio[name="config"]:checked').val();
             var input_text = $('input[name=input_text2]').val();
+            var Plain = $('input[name=input_text5]').val();
+            var Key = $('input[name=input_text6]').val();
             
-            var send_cookie = AlgoradioVal + "/" + BitsradioVal + "/" + input_text;
+            var send_cookie = AlgoradioVal + "/" + BitsradioVal;
             
             if(AlgoradioVal == "LEA"){
-                send_cookie  += "/" + config_mode;
+                send_cookie  += "/" + config_mode + "/" + Plain + "/" + Key;
+            }else if(AlgoradioVal == "LSH"){
+                send_cookie += "/" + input_text;
             }
             
             document.cookie = send_cookie;
@@ -192,14 +224,19 @@
                 $('#uploadForm_LSH').css('display', 'block');
                 $('#uploadForm_LEA').css('display', 'none');
                 
+                $('#LSH').css('display', 'block');
+                $('#LEA').css('display', 'none');
+                
                 $('#LEA_Config').css('display', 'none');
-                console.log(input_text);
             }else if(chkvalue == 'LEA'){
                 $('#POP_LSH').css('display', 'none');
                 $('#POP_LEA').css('display', 'block');
                 
                 $('#uploadForm_LSH').css('display', 'none');
                 $('#uploadForm_LEA').css('display', 'block');
+                
+                $('#LSH').css('display', 'none');
+                $('#LEA').css('display', 'block');
                 
                 $('#LEA_Config').css('display', 'block');
             }else if(chkvalue == 'HIGHT'){
@@ -225,11 +262,17 @@
             var chkvalue = $('input[type=radio][name=values]:checked').val();
 
             if (chkvalue == 'INPUT'){
-                $('#POP_Verify').css('display', 'block');
-                $('#POP_Search').css('display', 'none');
+                $('#LSH_Verify').css('display', 'block');
+                $('#LSH_Search').css('display', 'none');
+                
+                $('#LEA_Verify').css('display', 'block');
+                $('#LEA_Search').css('display', 'none');
             }else {
-                $('#POP_Verify').css('display', 'none');
-                $('#POP_Search').css('display', 'block');
+                $('#LSH_Verify').css('display', 'none');
+                $('#LSH_Search').css('display', 'block');
+                
+                $('#LEA_Verify').css('display', 'none');
+                $('#LEA_Search').css('display', 'block');
             }
         });
         

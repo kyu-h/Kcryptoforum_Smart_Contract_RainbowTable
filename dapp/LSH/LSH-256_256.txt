@@ -1,5 +1,5 @@
 Algo_ID = LSH-256_256
-Message = 14
+Message = 15
 "fff"
 "444"
 "64"
@@ -14,3 +14,4 @@ Message = 14
 "ddd"
 "dd"
 "42h"
+"xsc"

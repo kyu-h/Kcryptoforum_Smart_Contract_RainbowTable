@@ -21,20 +21,25 @@
         
         var algo = split_cookie[0];
         var bits = split_cookie[1];
-        var input_text = split_cookie[2];
+        var input_text = "";
         var config = "";
+        var LEA_plain = "";
+        var LEA_key = "";
         var text = "";
         
         console.log(cookie);
         console.log(input_text);
         
         if(split_cookie[0] == "LEA"){
-            config = split_cookie[3];
+            config = split_cookie[2];
+            LEA_plain = split_cookie[3];
+            LEA_key = split_cookie[4];
             console.log(config);
+        }else if(split_cookie[0] == "LSH"){
+            input_text = split_cookie[2];
         }
         
         if(algo == "LSH"){
-            var findStr = "tt";
             var input = "C:\\Bitnami\\wampstack-7.1.20-1\\apache2\\htdocs\\SmartContract_RainbowTable\\Kcryptoforum_Smart_Contract_RainbowTable\\dapp\\LSH\\" + algo + "-" + bits + ".txt";
             var input_fact = "C:\\Bitnami\\wampstack-7.1.20-1\\apache2\\htdocs\\SmartContract_RainbowTable\\Kcryptoforum_Smart_Contract_RainbowTable\\dapp\\LSH\\" + algo + "-" + bits + "_fax.txt";
             
@@ -54,10 +59,6 @@
                     document.writeln(input_text + "is already exist");
                     
                     verify_num = 1;
-                }
-                
-                if(split_txt[i].indexOf(findStr) != -1){
-                    console.log(split_txt[i] + " find!!");
                 }
             }
             
@@ -90,33 +91,44 @@
             }else {
                 alert("You can not put new block");
             }
-            
-            /*document.writeln("<br /><br />");
-            document.writeln("Newest fact file<br>");
-            inputFile(input_fact);*/
 
 
         }else if(algo == "LEA"){
-            var findStr = "tt";
             var input = "C:\\Bitnami\\wampstack-7.1.20-1\\apache2\\htdocs\\SmartContract_RainbowTable\\Kcryptoforum_Smart_Contract_RainbowTable\\dapp\\LEA\\" + algo + "_" + config + "-" + bits + ".txt";
             var input_fact = "C:\\Bitnami\\wampstack-7.1.20-1\\apache2\\htdocs\\SmartContract_RainbowTable\\Kcryptoforum_Smart_Contract_RainbowTable\\dapp\\LEA\\" + algo + "_" + config + "-" + bits + "_fax.txt";
             
-            document.writeln("Original input file<br>");
+            var PlainText = new Array();
+            var Key = new Array();
+            
+            for(var i=0; i<LEA_plain.length; i++){
+                PlainText[i] = a2hex(LEA_plain[i]);
+            }
+            
+            for(var i=0; i<LEA_key.length; i++){
+                Key[i] = a2hex(LEA_key[i]);
+            }
+            
+            console.log(PlainText);
+            console.log(Key);
+            
+            /*document.writeln("Original input file<br>");
             inputFile(input);
             
             var split_txt = text.split('"\r\n"');
+            var first_split = split_txt[0].split('"');
+            split_txt[0] = first_split[1];
+            var final_split = split_txt[split_txt.length - 1].split('"');
+            split_txt[split_txt.length - 1] = final_split[0];*/
             
-            for(var i =0; i<split_txt.length; i++){
+            
+            /*for(var i =0; i<split_txt.length; i++){
                 if(split_txt[i] == input_text){
                     document.writeln("<br />");
                     document.writeln(input_text + "is already exist");
                     
                     verify_num = 1;
                 }
-                
-                if(split_txt[i].indexOf(findStr) != -1){
-                    console.log(split_txt[i] + " find!!");
-                }
+                console.log(split_txt[i]);
             }
             
             
@@ -127,14 +139,21 @@
                 document.writeln("Newest input file<br>");
 
                 inputFile(input);
+                
             }else {
                 alert("You can not put new block");
+            }*/
+        }
+        
+        function a2hex(str) {
+            var arr = [];
+            for (var i = 0, l = str.length; i < l; i ++) {
+                var hex = Number(str.charCodeAt(i)).toString(16);
+                arr.push(hex);
             }
             
-            $(window).ready(function(){
-                console.log("load");
-
-            });    
+            console.log(hex);
+            return arr.join('');
         }
         
         function inputFile(input){
