@@ -1,1 +1,5 @@
-DD
+Algo_ID = LEA_CTR-256
+PlainText = 1
+"dd, f1, 6c, 19, 53, be, d2, 28, 55, 08, 31, 14, 41, 7a, 7f, a2"
+Key = 1
+"10, 88, 62, 60, 72, 1e, bf, 13, b0, a1, 8b, dc, e2, 27, d5, 3c, 0e, 28, fa, eb, d8, e6, 02, ba, 36, 91, 9b, 4a, 1c, a3, b2, 96"

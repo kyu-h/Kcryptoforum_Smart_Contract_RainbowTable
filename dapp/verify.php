@@ -27,6 +27,10 @@
         var LEA_key = "";
         var text = "";
         
+        var split_LEA = "";
+        var split_PlaintText = "";
+        var split_Key = "";
+        
         console.log(cookie);
         
         if(split_cookie[0] == "LEA"){
@@ -41,7 +45,6 @@
         
         if(algo == "LSH"){
             var input = "C:\\Bitnami\\wampstack-7.1.20-1\\apache2\\htdocs\\SmartContract_RainbowTable\\Kcryptoforum_Smart_Contract_RainbowTable\\dapp\\LSH\\" + algo + "-" + bits + ".txt";
-            var input_fact = "C:\\Bitnami\\wampstack-7.1.20-1\\apache2\\htdocs\\SmartContract_RainbowTable\\Kcryptoforum_Smart_Contract_RainbowTable\\dapp\\LSH\\" + algo + "-" + bits + "_fax.txt";
             
             document.writeln("Original input file<br>");
             inputFile(input);
@@ -95,9 +98,36 @@
 
         }else if(algo == "LEA"){
             var input = "C:\\Bitnami\\wampstack-7.1.20-1\\apache2\\htdocs\\SmartContract_RainbowTable\\Kcryptoforum_Smart_Contract_RainbowTable\\dapp\\LEA\\" + algo + "_" + config + "-" + bits + ".txt";
-            var input_fact = "C:\\Bitnami\\wampstack-7.1.20-1\\apache2\\htdocs\\SmartContract_RainbowTable\\Kcryptoforum_Smart_Contract_RainbowTable\\dapp\\LEA\\" + algo + "_" + config + "-" + bits + "_fax.txt";
+            
+            document.writeln("Original input file<br>");
+            inputFile(input);
+    
+            split_LEA = text.split('Key');
+            split_PlaintText = split_LEA[0].split('"\r\n"');
+            
+            console.log('ttt');
+            
+            var first_PlainText = split_PlaintText[0].split('"');
+            split_PlaintText[0] = first_PlainText[1];
+            var final_PlainText = split_PlaintText[split_PlaintText.length - 1].split('"');
+            split_PlaintText[split_PlaintText.length - 1] = final_PlainText[0];
+            
+            console.log(split_PlaintText);
+            
+            
+            split_Key = split_LEA[1].split('"\r\n"');
+            var first_Key = split_Key[0].split('"');
+            split_Key[0] = first_Key[1];
+            var final_Key = split_Key[split_Key.length - 1].split('"');
+            split_Key[split_Key.length - 1] = final_Key[0];
+            
+            console.log(split_Key);
             
             NotExist();
+            
+            document.writeln("<br /><br />");
+            document.writeln("Newest input file<br>");
+            inputFile(input);
         }
         
         function a2hex(str) {
@@ -154,6 +184,7 @@
                 var Plain_length = LEA_plain.length;
                 var Key_length = LEA_key.length;
                 var Key_size = 0;
+                var count = 0;
                 
                 if(bits == "128"){
                     Key_size = 16;
@@ -182,7 +213,7 @@
 
                             full_plain += PlainText[i] + ", ";
                         }else {
-                            PlainText[i] = 00;
+                            PlainText[i] = "00";
 
                             if(i == 15){
                                 full_plain += PlainText[i] + '"';
@@ -193,7 +224,15 @@
                     }
                 }
                 
-                fWrite.write("PlainText = " + "\r\n");
+                count = split_PlaintText.length + 1;
+                
+                fWrite.write("PlainText = " + count +  "\r\n");
+                
+                for(var i=0; i<split_PlaintText.length; i++){
+                    fWrite.write('"' + split_PlaintText[i] + '"');
+                    fWrite.write("\r\n");
+                }
+                
                 fWrite.write(full_plain);
                 
                 console.log("Length: " + Key_length);
@@ -215,7 +254,7 @@
 
                             full_key += Key[i] + ", ";
                         }else {
-                            Key[i] = 00;
+                            Key[i] = "00";
 
                             if(i == Key_size-1){
                                 full_key += Key[i] + '"';
@@ -226,7 +265,15 @@
                     }
                 }
                 
-                fWrite.write("\r\n" + "Key = " + "\r\n");
+                count = split_Key.length + 1;
+                
+                fWrite.write("\r\n" + "Key = " + count + "\r\n");
+                
+                for(var i=0; i<split_Key.length; i++){
+                    fWrite.write('"' + split_Key[i] + '"');
+                    fWrite.write("\r\n");
+                }
+                
                 fWrite.write(full_key);
             }
 

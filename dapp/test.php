@@ -59,6 +59,16 @@
     
     <br><br>
     
+    <div id="bits_128" style="display: none;">
+        <p>You clicked output bits for 128, PlainText size is 16, Key size is 16. If you not put full length of PlainText or Key, the rest of the value will be filled with '0'.</p>
+    </div>
+    <div id="bits_192" style="display: none;">
+        <p>You clicked output bits for 192, PlainText size is 16, Key size is 24. If you not put full length of PlainText or Key, the rest of the value will be filled with '0'.</p>
+    </div>
+    <div id="bits_256" style="display: none;">
+        <p>You clicked output bits for 256, PlainText size is 16, Key size is 32. If you not put full length of PlainText or Key, the rest of the value will be filled with '0'.</p>
+    </div>
+    
     <div id="POP_LEA" style="display: block;">
         <input type="radio" name="values" value="INPUT"> INPUT<br>
         <input type="radio" name="values" value="SEARCH"> SEARCH
@@ -76,7 +86,7 @@
         </div>
     </div>
     
-    <div id="LEA" style="display: none;">
+    <div id="LEA" style="display: none;">        
         <div id="LEA_Verify" style="display: none;">
             PlainText values : <input type="text" name="input_text3" id="input_text3"> <br>
             Key values : <input type="text" name="input_text4" id="input_text4">
@@ -216,6 +226,7 @@
         
         $('input[type=radio][name=algo]').on('click', function() {
             var chkvalue = $('input[type=radio][name=algo]:checked').val();
+            console.log(chkvalue);
 
             if (chkvalue == 'LSH'){
                 $('#POP_LSH').css('display', 'block');
@@ -255,6 +266,39 @@
                 $('#uploadForm_LEA').css('display', 'none');
                 
                 $('#LEA_Config').css('display', 'none');
+            }
+            
+            if(chkbits == "128"){
+                $('#bits_128').css('display', 'block');
+                $('#bits_192').css('display', 'none');
+                $('#bits_256').css('display', 'none');
+            }else if(chkbits == "192"){
+                $('#bits_128').css('display', 'none');
+                $('#bits_192').css('display', 'block');
+                $('#bits_256').css('display', 'none');
+            }else if(chkbits == "256"){
+                $('#bits_128').css('display', 'none');
+                $('#bits_192').css('display', 'none');
+                $('#bits_256').css('display', 'block');
+            }
+        });
+        
+        $('input[type=radio][name=bits]').on('click', function() {
+            var chkbits = $('input[type=radio][name=bits]:checked').val();
+            console.log(chkbits);
+
+            if(chkbits == "128"){
+                $('#bits_128').css('display', 'block');
+                $('#bits_192').css('display', 'none');
+                $('#bits_256').css('display', 'none');
+            }else if(chkbits == "192"){
+                $('#bits_128').css('display', 'none');
+                $('#bits_192').css('display', 'block');
+                $('#bits_256').css('display', 'none');
+            }else if(chkbits == "256"){
+                $('#bits_128').css('display', 'none');
+                $('#bits_192').css('display', 'none');
+                $('#bits_256').css('display', 'block');
             }
         });
     
