@@ -92,10 +92,38 @@
             Key values : <input type="text" name="input_text4" id="input_text4">
             <input type = "button" id="button3" value="verify" onclick="verify()">
         </div>
+        
+        <div id="LEA_Verify_CBC" style="display: none;">
+            PlainText values : <input type="text" name="verify_plain_cbc" id="verify_plain_cbc"> <br>
+            IV : <input type="text" name="verify_IV_cbc" id="verify_IV_cbc"> <br>
+            Key values : <input type="text" name="verify_key_cbc" id="verify_key_cbc">
+            <input type = "button" id="button3" value="verify" onclick="verify()">
+        </div>
+        
+        <div id="LEA_Verify_CTR" style="display: none;">
+            PlainText values : <input type="text" name="verify_plain_ctr" id="verify_plain_ctr"> <br>
+            CTR : <input type="text" name="verify_ctr_ctr" id="verify_ctr_ctr"> <br>
+            Key values : <input type="text" name="verify_key_ctr" id="verify_key_ctr">
+            <input type = "button" id="button3" value="verify" onclick="verify()">
+        </div>
 
         <div id="LEA_Search" style="display: none;">
             PlainText values : <input type="text" name="input_text5" id="input_text5"> <br>
             Key values : <input type="text" name="input_text6" id="input_text6">
+            <input type = "button" id="button4" value="Search" onclick="Search()">
+        </div>
+        
+        <div id="LEA_Search_CBC" style="display: none;">
+            PlainText values : <input type="text" name="input_text3" id="input_text5"> <br>
+            IV : <input type="text" name="input_text4" id="input_IV"> <br>
+            Key values : <input type="text" name="input_text4" id="input_text6">
+            <input type = "button" id="button4" value="Search" onclick="Search()">
+        </div>
+        
+        <div id="LEA_Search_CTR" style="display: none;">
+            PlainText values : <input type="text" name="input_text3" id="input_text5"> <br>
+            CTR : <input type="text" name="input_text4" id="input_CTR"> <br>
+            Key values : <input type="text" name="input_text4" id="input_text6">
             <input type = "button" id="button4" value="Search" onclick="Search()">
         </div>
     </div>
@@ -182,13 +210,36 @@
             var BitsradioVal = $(':radio[name="bits"]:checked').val();
             var config_mode = $(':radio[name="config"]:checked').val();
             var input_text = $('input[name=input_text]').val();
-            var Plain = $('input[name=input_text3]').val();
-            var Key = $('input[name=input_text4]').val();
+            
+            var Plain = "";
+            var Key = "";
+            
+            var conf_CTR = "";
+            var conf_IV = "";
+            
+            if(config_mode == "ECB"){
+                Plain = $('input[name=input_text3]').val();
+                Key = $('input[name=input_text4]').val();
+            }else if(config_mode == "CBC"){
+                Plain = $('input[name=verify_plain_cbc]').val();
+                Key = $('input[name=verify_key_cbc]').val();
+                conf_IV = $('input[name=verify_IV_cbc]').val();
+            }else if(config_mode == "CTR"){
+                Plain = $('input[name=verify_plain_ctr]').val();
+                Key = $('input[name=verify_key_ctr]').val();
+                conf_CTR = $('input[name=verify_ctr_ctr]').val();
+            }
             
             var send_cookie = AlgoradioVal + "/" + BitsradioVal;
             
             if(AlgoradioVal == "LEA"){
                 send_cookie += "/" + config_mode + "/" + Plain + "/" + Key;
+                
+                if(config_mode == "CBC"){
+                    send_cookie += "/" + conf_IV; 
+                }else if(config_mode == "CTR"){
+                    send_cookie += "/" + conf_CTR; 
+                }
             }else if(AlgoradioVal == "LSH"){
                 send_cookie += "/" + input_text;
             }
@@ -302,23 +353,49 @@
             }
         });
     
+        var conf = ""
+        
+        $('input[type=radio][name=config]').on('click', function() {
+            var chkvalue = $('input[type=radio][name=config]:checked').val();
+
+            conf = chkvalue;
+            console.log(conf);
+        });
+        
         $('input[type=radio][name=values]').on('click', function() {
             var chkvalue = $('input[type=radio][name=values]:checked').val();
 
             if (chkvalue == 'INPUT'){
+                if(conf == "ECB"){
+                    $('#LEA_Verify').css('display', 'block');
+                    $('#LEA_Search').css('display', 'none');
+                }else if(conf == "CBC"){
+                    $('#LEA_Verify_CBC').css('display', 'block');
+                    $('#LEA_Search_CBC').css('display', 'none');
+                }else if(conf == "CTR"){
+                    $('#LEA_Verify_CTR').css('display', 'block');
+                    $('#LEA_Search_CTR').css('display', 'none');
+                }
+                
                 $('#LSH_Verify').css('display', 'block');
                 $('#LSH_Search').css('display', 'none');
-                
-                $('#LEA_Verify').css('display', 'block');
-                $('#LEA_Search').css('display', 'none');
             }else {
+                if(conf == "ECB"){
+                    $('#LEA_Verify').css('display', 'none');
+                    $('#LEA_Search').css('display', 'block');
+                }else if(conf == "CBC"){
+                    $('#LEA_Verify_CBC').css('display', 'none');
+                    $('#LEA_Search_CBC').css('display', 'block');
+                }else if(conf == "CTR"){
+                    $('#LEA_Verify_CTR').css('display', 'none');
+                    $('#LEA_Search_CTR').css('display', 'block');
+                }
+                
                 $('#LSH_Verify').css('display', 'none');
                 $('#LSH_Search').css('display', 'block');
-                
-                $('#LEA_Verify').css('display', 'none');
-                $('#LEA_Search').css('display', 'block');
             }
         });
+        
         
     </script>
 

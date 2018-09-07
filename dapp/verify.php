@@ -25,11 +25,13 @@
         var config = "";
         var LEA_plain = "";
         var LEA_key = "";
+        var LEA_conf = "";
         var text = "";
         
         var split_LEA = "";
         var split_PlaintText = "";
         var split_Key = "";
+        var split_conf = "";
         
         console.log(cookie);
         
@@ -37,7 +39,9 @@
             config = split_cookie[2];
             LEA_plain = split_cookie[3];
             LEA_key = split_cookie[4];
+            LEA_conf = split_cookie[5];
             console.log(config);
+            console.log(LEA_conf);
         }else if(split_cookie[0] == "LSH"){
             input_text = split_cookie[2];
             console.log(input_text);
@@ -98,36 +102,82 @@
 
         }else if(algo == "LEA"){
             var input = "C:\\Bitnami\\wampstack-7.1.20-1\\apache2\\htdocs\\SmartContract_RainbowTable\\Kcryptoforum_Smart_Contract_RainbowTable\\dapp\\LEA\\" + algo + "_" + config + "-" + bits + ".txt";
-            
             document.writeln("Original input file<br>");
             inputFile(input);
-    
-            split_LEA = text.split('Key');
-            split_PlaintText = split_LEA[0].split('"\r\n"');
             
-            console.log('ttt');
+            var conf = "";
             
-            var first_PlainText = split_PlaintText[0].split('"');
-            split_PlaintText[0] = first_PlainText[1];
-            var final_PlainText = split_PlaintText[split_PlaintText.length - 1].split('"');
-            split_PlaintText[split_PlaintText.length - 1] = final_PlainText[0];
+            if(config == "CTR"){
+                conf = "CTR";
+            }else if(config == "CBC"){
+                conf = "IV";
+            }
             
-            console.log(split_PlaintText);
-            
-            
-            split_Key = split_LEA[1].split('"\r\n"');
-            var first_Key = split_Key[0].split('"');
-            split_Key[0] = first_Key[1];
-            var final_Key = split_Key[split_Key.length - 1].split('"');
-            split_Key[split_Key.length - 1] = final_Key[0];
-            
-            console.log(split_Key);
-            
+            if(config == "ECB"){
+                split_LEA = text.split('Key');
+                split_PlaintText = split_LEA[0].split('"\r\n"');
+
+                var first_PlainText = split_PlaintText[0].split('"');
+                split_PlaintText[0] = first_PlainText[1];
+                var final_PlainText = split_PlaintText[split_PlaintText.length - 1].split('"');
+                split_PlaintText[split_PlaintText.length - 1] = final_PlainText[0];
+                
+                split_Key = split_LEA[1].split('"\r\n"');
+                var first_Key = split_Key[0].split('"');
+                split_Key[0] = first_Key[1];
+                var final_Key = split_Key[split_Key.length - 1].split('"');
+                split_Key[split_Key.length - 1] = final_Key[0];
+
+            }else if(config != "ECB"){
+                if(config == "CTR"){
+                    split_LEA = text.split(conf + " =");    
+                }else if (config == "CBC"){
+                    split_LEA = text.split(conf);    
+                }
+                
+                split_PlaintText = split_LEA[0].split('"\r\n"');
+                
+                var first_PlainText = split_PlaintText[0].split('"');
+                split_PlaintText[0] = first_PlainText[1];
+                var final_PlainText = split_PlaintText[split_PlaintText.length - 1].split('"');
+                split_PlaintText[split_PlaintText.length - 1] = final_PlainText[0];
+                
+                var split_LEA2 = split_LEA[1].split("Key");
+                split_conf = split_LEA2[0].split('"\r\n"');
+                
+                var first_split = split_conf[0].split('"');
+                split_conf[0] = first_split[1];
+                var final_split = split_conf[split_conf.length - 1].split('"');
+                split_conf[split_conf.length - 1] = final_split[0];
+                
+                split_Key = split_LEA2[1].split('"\r\n"');
+                var first_Key = split_Key[0].split('"');
+                split_Key[0] = first_Key[1];
+                var final_Key = split_Key[split_Key.length - 1].split('"');
+                split_Key[split_Key.length - 1] = final_Key[0];
+            }
+
             NotExist();
-            
+
             document.writeln("<br /><br />");
             document.writeln("Newest input file<br>");
             inputFile(input);
+            
+            
+            <?php
+                $current = "";
+                $answer = "";
+
+                putenv("PATH=C:\\Program Files (x86)\\mingw-w64\\i686-7.3.0-posix-dwarf-rt_v5-rev0\\mingw32\\bin");
+
+                shell_exec("gcc -c LEA_Main.c");
+                shell_exec("gcc -c LEA_Default.c");
+                shell_exec("gcc -c LEA_ConfigMode.c");
+
+                shell_exec("gcc -o LEA_Main.exe LEA_Main.o LEA_Default.o LEA_ConfigMode.o");
+
+                $answer = shell_exec("LEA_Main.exe");
+            ?>
         }
         
         function a2hex(str) {
@@ -179,12 +229,18 @@
                 
                 var PlainText = new Array();
                 var Key = new Array();
+                var conf = new Array();
                 var full_plain = '"';
                 var full_key = '"';
+                var full_conf = '"';
                 var Plain_length = LEA_plain.length;
                 var Key_length = LEA_key.length;
+                var Config_length = LEA_conf.length;
+                var Plain_size = 0;
                 var Key_size = 0;
                 var count = 0;
+                var config_mode = "";
+                var config_mode_size = 16;
                 
                 if(bits == "128"){
                     Key_size = 16;
@@ -194,9 +250,19 @@
                     Key_size = 32;
                 }
                 
+                if(config == "ECB"){
+                    Plain_size = 16;
+                }else if(config == "CBC"){
+                    Plain_size = 64;
+                    config_mode = "IV";
+                }else if(config == "CTR"){
+                    Plain_size = 64;
+                    config_mode = "CTR";
+                }
+                
                 console.log("Length: " + Plain_length);
-
-                if(Plain_length == 16){
+                
+                if(Plain_length == Plain_size){
                     for(var i=0; i<Plain_length; i++){
                         PlainText[i] = a2hex(LEA_plain[i]);
 
@@ -207,7 +273,7 @@
                         }
                     }
                 }else {
-                    for(var i=0; i<16; i++){
+                    for(var i=0; i<Plain_size; i++){
                         if(i < Plain_length){
                             PlainText[i] = a2hex(LEA_plain[i]);
 
@@ -215,7 +281,7 @@
                         }else {
                             PlainText[i] = "00";
 
-                            if(i == 15){
+                            if(i == Plain_size - 1){
                                 full_plain += PlainText[i] + '"';
                             }else {
                                 full_plain += PlainText[i] + ", ";
@@ -223,17 +289,59 @@
                         }
                     }
                 }
-                
+
                 count = split_PlaintText.length + 1;
-                
+
                 fWrite.write("PlainText = " + count +  "\r\n");
-                
+
                 for(var i=0; i<split_PlaintText.length; i++){
                     fWrite.write('"' + split_PlaintText[i] + '"');
                     fWrite.write("\r\n");
                 }
-                
+
                 fWrite.write(full_plain);
+                
+                if(config != "ECB"){
+                    if(Config_length == config_mode_size){
+                        for(var i=0; i<Config_length; i++){
+                            conf[i] = a2hex(LEA_conf[i]);
+
+                            if(i != Config_length - 1){
+                                full_conf += conf[i] + ", ";    
+                            }else if(i == Config_length - 1){
+                                full_conf += conf[i] + '"';
+                            }
+                        }
+                    }else {
+                        for(var i=0; i<config_mode_size; i++){
+                            if(i < Config_length){
+                                conf[i] = a2hex(LEA_conf[i]);
+
+                                full_conf += conf[i] + ", ";
+                            }else {
+                                conf[i] = "00";
+
+                                if(i == config_mode_size-1){
+                                    full_conf += conf[i] + '"';
+                                }else {
+                                    full_conf += conf[i] + ", ";
+                                }
+                            }
+                        }
+                    }
+
+                    count = split_conf.length + 1;
+
+                    fWrite.write("\r\n" + config_mode + " = " + count + "\r\n");
+
+                    for(var i=0; i<split_conf.length; i++){
+                        fWrite.write('"' + split_conf[i] + '"');
+                        fWrite.write("\r\n");
+                    }
+
+                    console.log(full_conf);
+                    fWrite.write(full_conf);
+                }
                 
                 console.log("Length: " + Key_length);
 
@@ -264,16 +372,16 @@
                         }
                     }
                 }
-                
+
                 count = split_Key.length + 1;
-                
+
                 fWrite.write("\r\n" + "Key = " + count + "\r\n");
-                
+
                 for(var i=0; i<split_Key.length; i++){
                     fWrite.write('"' + split_Key[i] + '"');
                     fWrite.write("\r\n");
                 }
-                
+
                 fWrite.write(full_key);
             }
 

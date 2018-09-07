@@ -30,7 +30,7 @@
         console.log(input_text);
         
         if(split_cookie[0] == "LEA"){
-            config = split_cookie[3];
+            config = split_cookie[2];
             console.log(config);
         }
         
@@ -64,44 +64,31 @@
 
 
         }else if(algo == "LEA"){
-            var findStr = "tt";
             var input = "C:\\Bitnami\\wampstack-7.1.20-1\\apache2\\htdocs\\SmartContract_RainbowTable\\Kcryptoforum_Smart_Contract_RainbowTable\\dapp\\LEA\\" + algo + "_" + config + "-" + bits + ".txt";
+            
             var input_fact = "C:\\Bitnami\\wampstack-7.1.20-1\\apache2\\htdocs\\SmartContract_RainbowTable\\Kcryptoforum_Smart_Contract_RainbowTable\\dapp\\LEA\\" + algo + "_" + config + "-" + bits + "_fax.txt";
             
-            document.writeln("Original input file<br>");
+            document.writeln("Input file<br>");
             inputFile(input);
             
-            var split_txt = text.split('"\r\n"');
-            
-            for(var i =0; i<split_txt.length; i++){
-                if(split_txt[i] == input_text){
-                    document.writeln("<br />");
-                    document.writeln(input_text + "is already exist");
-                    
-                    verify_num = 1;
-                }
-                
-                if(split_txt[i].indexOf(findStr) != -1){
-                    console.log(split_txt[i] + " find!!");
-                }
-            }
-            
-            
-            if(verify_num == 0){
-                NotExist();
-                
-                document.writeln("<br /><br />");
-                document.writeln("Newest input file<br>");
+        <?php
+            $current = "";
+            $answer = "";
 
-                inputFile(input);
-            }else {
-                alert("You can not put new block");
-            }
-            
-            $(window).ready(function(){
-                console.log("load");
+            putenv("PATH=C:\\Program Files (x86)\\mingw-w64\\i686-7.3.0-posix-dwarf-rt_v5-rev0\\mingw32\\bin");
 
-            });    
+            shell_exec("gcc -c LEA_Main.c");
+            shell_exec("gcc -c LEA_Default.c");
+            shell_exec("gcc -c LEA_ConfigMode.c");
+
+            shell_exec("gcc -o LEA_Main.exe LEA_Main.o LEA_Default.o LEA_ConfigMode.o");
+
+            $answer = shell_exec("LEA_Main.exe");
+        ?>
+
+            document.writeln("<br /><br />");
+            document.writeln("Newest fact file<br>");
+            outputFile(input_fact);
         }
         
         function inputFile(input){
